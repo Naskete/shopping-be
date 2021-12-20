@@ -6,6 +6,7 @@ import com.work.shopping.Utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 public class LoginController {
     @Autowired
@@ -20,7 +21,7 @@ public class LoginController {
             StpUtil.login(username);
             return SaResult.ok("登录成功");
         }
-        return SaResult.ok("登录失败");
+        return SaResult.error("登录失败");
     }
 
     @GetMapping("/logout")
