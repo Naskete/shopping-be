@@ -1,22 +1,26 @@
 package com.work.shopping.Service;
 
+import com.work.shopping.Dao.UserDao;
 import com.work.shopping.Entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    /** 通过id获取用户信息
-     * id 用户id
+    @Autowired
+    private UserDao userDao;
+    /** 通过账号获取用户信息
+     * account 用户account
      * return User
      */
-    public User getUserById(String id){
-        return null;
+    public User getUserByAccount(String account){
+        return userDao.getUserByAccount(account);
     }
 
     /**
      * 注册，添加用户
      */
-    public void addUser(){
-
+    public void addUser(User user){
+        userDao.save(user);
     }
 }
