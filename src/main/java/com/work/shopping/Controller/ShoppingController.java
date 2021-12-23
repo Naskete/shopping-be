@@ -18,7 +18,7 @@ public class ShoppingController {
     public SaResult findAll(){return new SaResult(200,"successful",shoppingService.getProducts());}
 
     @GetMapping("/product/{id}")
-    public SaResult getProductByID(@PathVariable("id") BigInteger id){
+    public SaResult getProductByID(@PathVariable("id") String id){
         return new SaResult(200,"successful",shoppingService.getProductById(id));
     }
 
