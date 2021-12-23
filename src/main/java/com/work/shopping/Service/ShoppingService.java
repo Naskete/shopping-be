@@ -1,16 +1,23 @@
 package com.work.shopping.Service;
 
+import com.work.shopping.Dao.ProductDao;
 import com.work.shopping.Entity.Comment;
 import com.work.shopping.Entity.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.List;
-
+@Service
 public class ShoppingService {
     /**
      *  获取商品列表（主页展示）
      */
+    @Autowired
+    private ProductDao productDao;
+
     public List<Product> getProducts(){
-        return null;
+        return productDao.findAll();
     }
 
     /**
@@ -19,7 +26,7 @@ public class ShoppingService {
      * @return 商品对象 Product
      */
     public Product getProductById(String id){
-        return null;
+        return productDao.getById(new BigInteger(id));
     }
 
     /**
