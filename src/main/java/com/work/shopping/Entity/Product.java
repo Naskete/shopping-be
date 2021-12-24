@@ -7,21 +7,19 @@ import javax.persistence.Table;
 import java.math.BigInteger;
 
 @Entity
-@Table(name = "commodities")
+@Table(name = "products")
 public class Product {
     @Id
     @Column(name = "id")
     private BigInteger id;
     @Column(name = "name")
     private String name;
-    @Column(name = "shop_name")
-    private String shop_name;
+    @Column(name = "shop")
+    private String shop;
     @Column(name = "description")
     private String description;
     @Column(name = "img")
     private String img;
-    @Column(name = "style")
-    private String style;
     @Column(name = "price")
     private float price;
     @Column(name = "status")
@@ -51,12 +49,12 @@ public class Product {
         this.name = name;
     }
 
-    public String getShop_name() {
-        return shop_name;
+    public String getShop() {
+        return shop;
     }
 
-    public void setShop_name(String shop_name) {
-        this.shop_name = shop_name;
+    public void setShop(String shop) {
+        this.shop = shop;
     }
 
     public String getDescription() {
@@ -75,19 +73,24 @@ public class Product {
         this.img = img;
     }
 
-    public String getStyle() {
-        return style;
-    }
-
-    public void setStyle(String style) {
-        this.style = style;
-    }
-
     public float getPrice() {
         return price;
     }
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", shop=" + shop +
+                ", name=" + name +
+                ", description=" + description +
+                ", img=" + img +
+                ", price=" + price +
+                ", status=" + status +
+                '}';
     }
 }

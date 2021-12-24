@@ -1,8 +1,11 @@
 package com.work.shopping.Service;
 
 import com.work.shopping.Dao.ProductDao;
+import com.work.shopping.Dao.ShoppingCartDao;
 import com.work.shopping.Entity.Comment;
 import com.work.shopping.Entity.Product;
+import com.work.shopping.Entity.ShoppingCart;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,8 @@ public class ShoppingService {
      */
     @Autowired
     private ProductDao productDao;
+    @Autowired
+    private ShoppingCartDao shoppingCartDao;
 
     public List<Product> getProducts(){
         return productDao.findAll();
@@ -26,25 +31,28 @@ public class ShoppingService {
      * @return 商品对象 Product
      */
     public Product getProductById(String id){
-        return productDao.getById(new BigInteger(id));
+        return productDao.getById(id);
     }
 
     /**
      * 添加商品至购物车
      * @param userId 用户id
-     * @param id 商品id
+     * @param product
      */
-    public void purchase(String userId, String id){
-
+    public void purchase(String userId, Product product){
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setId(new BigInteger("0"));
+        shoppingCart.setAcount(userId);
+        shoppingCart.setData(product.toString());
+        shoppingCartDao.save(shoppingCart);
     }
-
     /**
      * 获取购物车内容
      * @param id 用户id
      * @return 商品列表
      */
-    public List<Product> getShoppingCart(String id){
-        return null;
+    public List<ShoppingCart> getShoppingCart(String id){
+        return shoppingCartDao.findAllByAcount(id);
     }
 
     /**

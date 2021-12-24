@@ -9,4 +9,6 @@ import java.math.BigInteger;
 
 @Repository
 public interface ProductDao extends JpaRepository<Product, BigInteger> {
+    @Query(value = "select * from products where id = ? and status = true",nativeQuery = true)
+    Product getById(String id);
 }
