@@ -45,6 +45,4 @@ public class ShoppingController {
         String account = StpUtil.getLoginId().toString();
         return new SaResult(200,"successful",shoppingService.getShoppingCart(account));
     }
-//    @PostMapping("/deleteproduct")
-//    public SaResult deleteShoppingCart(@RequestParam());
 }
