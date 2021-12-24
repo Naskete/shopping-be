@@ -7,8 +7,6 @@ import com.work.shopping.Service.ShoppingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
-import java.util.List;
 @CrossOrigin
 @RestController
 public class ShoppingController {
@@ -31,7 +29,6 @@ public class ShoppingController {
         }
         // 获取当前用户account String productId,
         String account = StpUtil.getLoginId().toString();
-        System.out.println(account);
         shoppingService.purchase(account, product);
         return SaResult.ok("ok");
     }
@@ -44,5 +41,25 @@ public class ShoppingController {
         // 获取当前用户account String productId,
         String account = StpUtil.getLoginId().toString();
         return new SaResult(200,"successful",shoppingService.getShoppingCart(account));
+    }
+    @PostMapping("/deletecart")
+    public SaResult deleteProduct(@RequestParam("id")String id){
+        shoppingService.deleteProduct(id);
+        return SaResult.ok("ok");
+    }
+    @GetMapping("/comment/{productid}")
+    public SaResult getComment(@PathVariable("productid")String productid){
+        return new SaResult(200,"successful",shoppingService.getComment(productid));
+    }
+    @PostMapping("/addcomment")
+    public SaResult addComment(@RequestParam("content")String content,@RequestParam("productid")String productid){
+        // 判断登录状态
+        if(!StpUtil.isLogin()){
+            return SaResult.error("请登录");
+        }
+        // 获取当前用户account String productId,
+        String account = StpUtil.getLoginId().toString();
+        shoppingService.addComment(account, content,productid);
+        return SaResult.ok("ok");
     }
 }
