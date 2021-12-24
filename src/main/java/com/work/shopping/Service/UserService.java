@@ -5,6 +5,8 @@ import com.work.shopping.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 @Service
 public class UserService {
     @Autowired
@@ -22,5 +24,9 @@ public class UserService {
      */
     public void addUser(User user){
         userDao.save(user);
+    }
+
+    public Collection<User> getAll() {
+       return userDao.findAll();
     }
 }
