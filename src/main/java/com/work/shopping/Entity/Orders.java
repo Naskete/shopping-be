@@ -9,31 +9,31 @@ import java.util.Date;
 
 @Entity
 @Table(name = "orders")
-public class orders {
+public class Orders {
     @Id
-    @Column(name = "account")
-    private BigInteger account;
     @Column(name = "id")
-    private String id;
+    private BigInteger id;
+    @Column(name = "account")
+    private String account;
     @Column(name = "data")
     private String data;
     @Column(name = "destination")
     private String destination;
 
-    public BigInteger getAccount() {
-        return account;
-    }
-
-    public void setAccount(BigInteger account) {
-        this.account = account;
-    }
-
-    public String getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(BigInteger id) {
         this.id = id;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public String getData() {

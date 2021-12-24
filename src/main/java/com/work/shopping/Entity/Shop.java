@@ -7,20 +7,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "shop")
-public class shop {
+public class Shop {
     @Id
-    @Column(name = "business")
-    private String bussiness;
     @Column(name = "shop_name")
     private String shop_name;
-
-    public String getBussiness() {
-        return bussiness;
-    }
-
-    public void setBussiness(String bussiness) {
-        this.bussiness = bussiness;
-    }
+    @Column(name = "bussiness")
+    private String bussiness;
 
     public String getShop_name() {
         return shop_name;
@@ -28,6 +20,14 @@ public class shop {
 
     public void setShop_name(String shop_name) {
         this.shop_name = shop_name;
+    }
+
+    public String getBussiness() {
+        return bussiness;
+    }
+
+    public void setBussiness(String bussiness) {
+        this.bussiness = bussiness;
     }
 
     @Override
