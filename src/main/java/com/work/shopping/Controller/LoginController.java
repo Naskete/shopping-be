@@ -21,10 +21,14 @@ public class LoginController {
     public SaResult login(@RequestParam("username") String account,
                           @RequestParam("password") String password){
         User user = userService.getUserByAccount(account);
+        if (user==null){
+            return new SaResult(400, "用户不存在，请先注册", null);
+        }
         String mdash = user.getPassword();
         if(md5Util.checkPwd(password, mdash)){
             StpUtil.login(account);
-            return SaResult.ok("登录成功");
+            String token = StpUtil.getTokenInfo().tokenValue;
+            return new SaResult(200, "登录成功", token);
         }
         return SaResult.error("登录失败，用户名或密码错误");
     }
