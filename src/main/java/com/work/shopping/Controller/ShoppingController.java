@@ -16,43 +16,65 @@ public class ShoppingController {
     private ShoppingService shoppingService;
 
     @GetMapping("/products")
-    public SaResult findAll(){return new SaResult(200,"successful",shoppingService.getProducts());}
+    public SaResult findAll(){
+        return new SaResult(200,"successful",shoppingService.getProducts());
+    }
 
+    /**
+     *
+     * @param id product id
+     * @return product
+     */
     @GetMapping("/product/{id}")
     public SaResult getProductByID(@PathVariable("id") String id){
         return new SaResult(200,"successful",shoppingService.getProductById(id));
     }
 
+    /**
+     * purchase
+     * @param product
+     * @return ok
+     */
     @PostMapping("/purchase")
-    public SaResult purchase(@RequestBody Product product){
+    public SaResult purchase(@RequestBody Product product, @RequestHeader("Authorization") String token){
         // 判断登录状态
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
+        String id = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(id == null){
+            return new SaResult(400, "请登录后查看", null);
         }
-        // 获取当前用户account String productId,
-        String account = StpUtil.getLoginId().toString();
-        shoppingService.purchase(account, product);
+        shoppingService.purchase(id, product);
         return SaResult.ok("ok");
     }
+
     @GetMapping("/shoppingcart")
-    public SaResult getShoppingCart(){
+    public SaResult getShoppingCart(@RequestHeader("Authorization") String token){
         // 判断登录状态
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
+        String account = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(account == null){
+            return new SaResult(400, "请登录后查看", null);
         }
-        // 获取当前用户account String productId,
-        String account = StpUtil.getLoginId().toString();
         return new SaResult(200,"successful",shoppingService.getShoppingCart(account));
     }
+
     @PostMapping("/deletecart")
     public SaResult deleteProduct(@RequestParam("id")String id){
         shoppingService.deleteProduct(id);
         return SaResult.ok("ok");
     }
-    @GetMapping("/comment/{productid}")
-    public SaResult getComment(@PathVariable("productid")String productid){
-        return new SaResult(200,"successful",shoppingService.getComment(productid));
+
+    /**
+     *  get comment of product
+     * @param id product id
+     * @return List<comment>
+     */
+    @GetMapping("/comment/{id}")
+    public SaResult getComment(@PathVariable("id")String id){
+        return new SaResult(200,"successful",shoppingService.getComment(id));
     }
+
+
     @PostMapping("/addcomment")
     public SaResult addComment(@RequestParam("content")String content,@RequestParam("productid")String productid){
         // 判断登录状态
