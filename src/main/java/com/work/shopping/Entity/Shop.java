@@ -11,8 +11,8 @@ public class Shop {
     @Id
     @Column(name = "shop_name")
     private String shopName;
-    @Column(name = "bussiness")
-    private String bussiness;
+    @Column(name = "business")
+    private String business;
 
     public String getShopName() {
         return shopName;
@@ -23,17 +23,17 @@ public class Shop {
     }
 
     public String getBussiness() {
-        return bussiness;
+        return business;
     }
 
     public void setBussiness(String bussiness) {
-        this.bussiness = bussiness;
+        this.business = bussiness;
     }
 
     @Override
     public String toString() {
         return "shop{" +
-                "bussiness='" + bussiness + '\'' +
+                "bussiness='" + business + '\'' +
                 ", shop_name='" + shopName + '\'' +
                 '}';
     }

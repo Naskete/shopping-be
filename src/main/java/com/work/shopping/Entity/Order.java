@@ -12,7 +12,7 @@ public class Order {
     @Id
     @Column(name = "id")
     BigInteger id;
-    @Column(name = "acount")
+    @Column(name = "account")
     String acount;
     @Column(name = "data")
     String data;
