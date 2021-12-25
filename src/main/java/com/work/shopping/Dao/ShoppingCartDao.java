@@ -12,10 +12,12 @@ import java.util.List;
 
 @Repository
 public interface ShoppingCartDao extends JpaRepository<ShoppingCart, BigInteger> {
-    @Query(value = "select data from shoppingcart where acount = ?",nativeQuery = true)
-    List<String> findAllByAcount(String id);
+    @Query(value = "select * from shoppingcart where acount = ?",nativeQuery = true)
+    List<ShoppingCart> findAllByAcount(String id);
     @Modifying
     @Transactional
     @Query(value = "delete from shoppingcart where id = ?",nativeQuery = true)
     void deleteShoppingCartById(String id);
+    @Query(value = "select data from shoppingcart where id = ?",nativeQuery = true)
+    String findAllDataById(String id);
 }

@@ -3,9 +3,11 @@ package com.work.shopping.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.work.shopping.Dao.CommentDao;
+import com.work.shopping.Dao.OrderDao;
 import com.work.shopping.Dao.ProductDao;
 import com.work.shopping.Dao.ShoppingCartDao;
 import com.work.shopping.Entity.Comment;
+import com.work.shopping.Entity.Order;
 import com.work.shopping.Entity.Product;
 import com.work.shopping.Entity.ShoppingCart;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class ShoppingService {
     private ShoppingCartDao shoppingCartDao;
     @Autowired
     private CommentDao commentDao;
+    @Autowired
+    private OrderDao orderDao;
 
     public List<Product> getProducts(){
         return productDao.findAll();
@@ -56,10 +60,10 @@ public class ShoppingService {
      * @param id 用户id
      * @return 商品列表
      */
-    public List<JSONObject> getShoppingCart(String id){
-        List<JSONObject> j = new ArrayList<JSONObject>();
-        for (String s:shoppingCartDao.findAllByAcount(id)){
-            j.add(JSON.parseObject(s));
+    public JSONObject getShoppingCart(String id){
+        JSONObject j = new JSONObject();
+        for (ShoppingCart s:shoppingCartDao.findAllByAcount(id)){
+            j.put(s.getId().toString(),JSON.parseObject(s.getData()));
         }
         return j;
     }
@@ -75,10 +79,43 @@ public class ShoppingService {
     /**
      * 结算（待定）
      */
-    public void bill(){
+    public void bill(String[] id,String account,String des){
+        JSONObject j = new JSONObject();
+        for (String s:id){
+            j.put(s,JSON.parseObject(shoppingCartDao.findAllDataById(s)));
+        }
+        Order order = new Order();
+        order.setAcount(account);
+        order.setData(JSON.toJSONString(j));
+        order.setId(new BigInteger("0"));
+        order.setDestination(des);
+        orderDao.save(order);
+        for (String s:id){
+            deleteProduct(s);
+        }
 
     }
-
+    public JSONObject getOrders(String account){
+        JSONObject j = new JSONObject();
+        for (Order o:orderDao.findAllByAcount(account)){
+            j.put(String.valueOf(o.getId()),JSON.parseObject(o.getData()));
+        }
+        return j;
+    }
+    public JSONObject getOrderById(String id){
+        JSONObject j = new JSONObject();
+        j.put("id",orderDao.findById(id).getId());
+        j.put("data",JSON.parseObject(orderDao.findById(id).getData()));
+        j.put("des",orderDao.findById(id).getDestination());
+        return j;
+    }
+    public List<JSONObject> getPrice(String[] id){
+        List<JSONObject> j = new ArrayList<>();
+        for (String s:id){
+            j.add(JSON.parseObject(shoppingCartDao.findAllDataById(s)));
+        }
+        return j;
+    }
     /**
      * 获取某商品的评论
      * @param productid 商品id
