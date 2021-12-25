@@ -4,8 +4,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.work.shopping.Entity.User;
 import com.work.shopping.Service.UserService;
+import com.work.shopping.Utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -26,9 +26,16 @@ public class UserController  {
     /*
     * 将注册用户的信息保存到数据库，返回login界面
     * */
-    @PostMapping("/register")
-    public SaResult registerUser(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam String name){
-
+    @PostMapping("/user/register")
+    public SaResult registerUser(@RequestParam("account") String account, @RequestParam("password") String password){
+        User user = userService.getUserByAccount(account);
+        if(user != null){
+            return SaResult.error("用户已存在，请直接登录");
+        }
+        password = new MD5Util().md5(password);
+        System.out.println(password);
+        user = new User(account, password);
+        userService.addUser(user);
         return new SaResult(200,"注册成功",null);
     }
 
