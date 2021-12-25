@@ -1,15 +1,18 @@
 package com.work.shopping.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.work.shopping.Dao.CommentDao;
 import com.work.shopping.Dao.ProductDao;
 import com.work.shopping.Dao.ShoppingCartDao;
 import com.work.shopping.Entity.Comment;
 import com.work.shopping.Entity.Product;
 import com.work.shopping.Entity.ShoppingCart;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class ShoppingService {
@@ -20,6 +23,8 @@ public class ShoppingService {
     private ProductDao productDao;
     @Autowired
     private ShoppingCartDao shoppingCartDao;
+    @Autowired
+    private CommentDao commentDao;
 
     public List<Product> getProducts(){
         return productDao.findAll();
@@ -43,7 +48,7 @@ public class ShoppingService {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setId(new BigInteger("0"));
         shoppingCart.setAcount(userId);
-        shoppingCart.setData(product.toString());
+        shoppingCart.setData(JSON.toJSONString(product));
         shoppingCartDao.save(shoppingCart);
     }
     /**
@@ -51,17 +56,20 @@ public class ShoppingService {
      * @param id 用户id
      * @return 商品列表
      */
-    public List<ShoppingCart> getShoppingCart(String id){
-        return shoppingCartDao.findAllByAcount(id);
+    public List<JSONObject> getShoppingCart(String id){
+        List<JSONObject> j = new ArrayList<JSONObject>();
+        for (String s:shoppingCartDao.findAllByAcount(id)){
+            j.add(JSON.parseObject(s));
+        }
+        return j;
     }
 
     /**
      * 从购物车中删除商品
-     * @param userId 用户id
      * @param id 商品id
      */
-    public void deleteProduct(String userId, String id){
-
+    public void deleteProduct(String id){
+        shoppingCartDao.deleteShoppingCartById(id);
     }
 
     /**
@@ -73,10 +81,18 @@ public class ShoppingService {
 
     /**
      * 获取某商品的评论
-     * @param id 商品id
+     * @param productid 商品id
      * @return 评论列表
      */
-    public List<Comment> getComment(String id){
-        return null;
+    public List<Comment> getComment(String productid){
+        return commentDao.findByProductId(productid);
+    }
+    public void addComment(String userId, String content,String productid){
+        Comment comment = new Comment();
+        comment.setContent(content);
+        comment.setAcount(userId);
+        comment.setId("0");
+        comment.setProductid(productid);
+        commentDao.save(comment);
     }
 }
