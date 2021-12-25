@@ -3,7 +3,9 @@ package com.work.shopping.Controller;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.work.shopping.Entity.Shop;
+import com.work.shopping.Entity.User;
 import com.work.shopping.Service.ShopService;
+import com.work.shopping.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 public class shopController {
     @Autowired
     private ShopService shopService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/shops")
     public SaResult findAll(){
@@ -37,6 +41,9 @@ public class shopController {
         shop.setShopName(shopName);
         shop.setBussiness(bussiness);
         shopService.addShop(shop);
+        User user = userService.getUserByAccount(bussiness);
+        user.setGrade(1);
+        userService.addUser(user);
         return new SaResult(200,"注册成功",null);
     }
 
