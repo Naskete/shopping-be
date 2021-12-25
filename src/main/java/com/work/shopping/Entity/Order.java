@@ -11,15 +11,9 @@ import java.math.BigInteger;
 public class Order {
     @Id
     @Column(name = "id")
-<<<<<<< HEAD
     private BigInteger id;
     @Column(name = "account")
     private String account;
-=======
-    BigInteger id;
-    @Column(name = "account")
-    String acount;
->>>>>>> 17860a85b76394ddc82389071de25b0b41e8b3ff
     @Column(name = "data")
     private String data;
     @Column(name = "destination")

@@ -33,20 +33,11 @@ public class ShoppingCart {
         this.data = data;
     }
 
-<<<<<<< HEAD
     public String getAccount() {
         return account;
     }
 
     public void setAccount(String account) {
         this.account = account;
-=======
-    public String getAcount() {
-        return account;
-    }
-
-    public void setAcount(String acount) {
-        this.account = acount;
->>>>>>> 17860a85b76394ddc82389071de25b0b41e8b3ff
     }
 }
