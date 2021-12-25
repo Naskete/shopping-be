@@ -16,7 +16,7 @@ public class User {
     @Column(name = "password")
     private String password;
     @Column(name = "grade")
-    private int grade;
+    private int grade;  // 1 普通用户 2 商家 3 管理员
     @Column(name = "remain")
     private float remain;
     @Column(name = "vip")
@@ -28,7 +28,7 @@ public class User {
         this.id = id;
         this.password = pwd;
         this.username = "E" + id;
-        this.grade = 0;
+        this.grade = 1;
         this.remain = 0;
         this.vip = 0;
     }
