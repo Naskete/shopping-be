@@ -25,6 +25,7 @@ public class Product {
     @Column(name = "status")
     private boolean status;
 
+    public Product() {}
     public BigInteger getId() {
         return id;
     }
