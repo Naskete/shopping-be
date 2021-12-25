@@ -10,16 +10,16 @@ import javax.persistence.Table;
 public class Shop {
     @Id
     @Column(name = "shop_name")
-    private String shop_name;
+    private String shopName;
     @Column(name = "bussiness")
     private String bussiness;
 
-    public String getShop_name() {
-        return shop_name;
+    public String getShopName() {
+        return shopName;
     }
 
-    public void setShop_name(String shop_name) {
-        this.shop_name = shop_name;
+    public void setShopName(String shop_name) {
+        this.shopName = shop_name;
     }
 
     public String getBussiness() {
@@ -34,7 +34,7 @@ public class Shop {
     public String toString() {
         return "shop{" +
                 "bussiness='" + bussiness + '\'' +
-                ", shop_name='" + shop_name + '\'' +
+                ", shop_name='" + shopName + '\'' +
                 '}';
     }
 }

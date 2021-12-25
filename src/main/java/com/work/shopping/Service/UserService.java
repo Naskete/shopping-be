@@ -26,7 +26,7 @@ public class UserService {
         userDao.save(user);
     }
 
-    public Collection<User> getAll() {
+    public Collection<User> findAll() {
        return userDao.findAll();
     }
 }
