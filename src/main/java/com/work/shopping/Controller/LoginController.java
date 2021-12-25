@@ -20,14 +20,8 @@ public class LoginController {
     @PostMapping("/login")
     public SaResult login(@RequestParam("username") String account,
                           @RequestParam("password") String password){
-//        System.out.println(account + "\t" + password);
-        // 从数据库查询
-        if(account.equals("")|| password.equals("")){
-            return SaResult.error("用户名或密码不能为空");
-        }
         User user = userService.getUserByAccount(account);
         String mdash = user.getPassword();
-//        System.out.println("mdash = " + mdash);
         if(md5Util.checkPwd(password, mdash)){
             StpUtil.login(account);
             return SaResult.ok("登录成功");
