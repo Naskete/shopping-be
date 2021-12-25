@@ -16,10 +16,12 @@ public class UserController  {
     private UserService userService;
 
 
-    @RequestMapping("/users")
+    @GetMapping("/users")
     public SaResult findAll(){
        return new SaResult(200, "successful", userService.findAll());
     }
+
+
 
     /*
     * 将注册用户的信息保存到数据库，返回login界面
@@ -31,18 +33,15 @@ public class UserController  {
         user.setUsername(username);
         user.setPassword(password);
         userService.addUser(user);
-        return SaResult.ok("注册成功");
+        return new SaResult(200,"注册成功",null);
     }
 
-    /*
-    * 前往修改用户信息的界面user/add
-    * */
-    @GetMapping("/user/{account}")
-    public SaResult toUpdateUser(@PathVariable("account") String account, Model model){
+
+    @GetMapping("/user")
+    public SaResult getUserByAccount(){
         if(!StpUtil.isLogin()){
             return SaResult.error("请登录");
         }
-        // 查出原来的数据
         String id = StpUtil.getLoginId().toString();
         return new SaResult(200,"successful",userService.getUserByAccount(id));
     }
@@ -54,5 +53,15 @@ public class UserController  {
         }
         userService.addUser(user);
         return SaResult.ok("修改成功");
+    }
+
+    @RequestMapping("user/logout")
+    public SaResult deleteUser() {
+        if (!StpUtil.isLogin()) {
+            return SaResult.error("请登录");
+        }
+        String account = StpUtil.getLoginId().toString();
+        userService.deleteUser(userService.getUserByAccount(account));
+        return SaResult.ok(" 删除成功");
     }
 }

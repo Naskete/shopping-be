@@ -18,8 +18,17 @@ public class shopController {
         return new SaResult(200, "successful", shopService.findAll());
     }
 
+    @RequestMapping("/shop")
+    public SaResult getShopByBussiness(){
+        if(!StpUtil.isLogin()){
+            return SaResult.error("请登录");
+        }
+        String bussiness = StpUtil.getLoginId().toString();
+        return new SaResult(200,"successful",shopService.getShopByBussiness(bussiness));
+    }
+
     @PostMapping("/Shop/register")
-    public SaResult rigisterShop(@RequestParam("shopName") String shopName){
+    public SaResult registerShop(@RequestParam("shopName") String shopName){
         if(!StpUtil.isLogin()){
             return SaResult.error("请登录");
         }
@@ -28,7 +37,7 @@ public class shopController {
         shop.setShopName(shopName);
         shop.setBussiness(bussiness);
         shopService.addShop(shop);
-        return SaResult.ok("注册成功");
+        return new SaResult(200,"注册成功",null);
     }
 
     @PostMapping("shop/updateName")

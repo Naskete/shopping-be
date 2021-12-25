@@ -26,6 +26,8 @@ public class UserService {
         userDao.save(user);
     }
 
+    public void deleteUser(User user) {userDao.delete(user); }
+
     public Collection<User> findAll() {
        return userDao.findAll();
     }
