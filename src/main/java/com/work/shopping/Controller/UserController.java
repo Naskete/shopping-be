@@ -17,15 +17,15 @@ public class UserController  {
 
 
     @GetMapping("/users")
-    public SaResult findAll(){
-       return new SaResult(200, "successful", userService.findAll());
+    public SaResult findAll() {
+        return new SaResult(200, "successful", userService.findAll());
     }
 
-
-
-    /*
-    * 将注册用户的信息保存到数据库，返回login界面
-    * */
+    /**
+     * @param account 账号
+     * @param password 密码
+     * @return
+     */
     @PostMapping("/user/register")
     public SaResult registerUser(@RequestParam("account") String account, @RequestParam("password") String password){
         User user = userService.getUserByAccount(account);
@@ -40,12 +40,17 @@ public class UserController  {
     }
 
 
+    /**
+     * @param token token
+     * @return user
+     */
     @GetMapping("/user")
-    public SaResult getUserByAccount(){
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
+    public SaResult getUserByAccount(@RequestHeader("Authorization") String token){
+        String id = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(id == null){
+            return new SaResult(400, "请登录后查看", null);
         }
-        String id = StpUtil.getLoginId().toString();
         return new SaResult(200,"successful",userService.getUserByAccount(id));
     }
 
