@@ -51,7 +51,7 @@ public class ShoppingService {
     public void purchase(String userId, Product product){
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setId(new BigInteger("0"));
-        shoppingCart.setAcount(userId);
+        shoppingCart.setAccount(userId);
         shoppingCart.setData(JSON.toJSONString(product));
         shoppingCartDao.save(shoppingCart);
     }
@@ -62,7 +62,7 @@ public class ShoppingService {
      */
     public JSONObject getShoppingCart(String id){
         JSONObject j = new JSONObject();
-        for (ShoppingCart s:shoppingCartDao.findAllByAcount(id)){
+        for (ShoppingCart s:shoppingCartDao.findAllByAccount(id)){
             j.put(s.getId().toString(),JSON.parseObject(s.getData()));
         }
         return j;
@@ -85,7 +85,7 @@ public class ShoppingService {
             j.put(s,JSON.parseObject(shoppingCartDao.findAllDataById(s)));
         }
         Order order = new Order();
-        order.setAcount(account);
+        order.setAccount(account);
         order.setData(JSON.toJSONString(j));
         order.setId(new BigInteger("0"));
         order.setDestination(des);
@@ -97,7 +97,7 @@ public class ShoppingService {
     }
     public JSONObject getOrders(String account){
         JSONObject j = new JSONObject();
-        for (Order o:orderDao.findAllByAcount(account)){
+        for (Order o:orderDao.findAllByAccount(account)){
             j.put(String.valueOf(o.getId()),JSON.parseObject(o.getData()));
         }
         return j;
@@ -127,7 +127,7 @@ public class ShoppingService {
     public void addComment(String userId, String content,String productid){
         Comment comment = new Comment();
         comment.setContent(content);
-        comment.setAcount(userId);
+        comment.setAccount(userId);
         comment.setId("0");
         comment.setProductid(productid);
         commentDao.save(comment);

@@ -12,8 +12,8 @@ import java.util.List;
 
 @Repository
 public interface ShoppingCartDao extends JpaRepository<ShoppingCart, BigInteger> {
-    @Query(value = "select * from shoppingcart where acount = ?",nativeQuery = true)
-    List<ShoppingCart> findAllByAcount(String id);
+    @Query(value = "select * from shoppingcart where account = ?",nativeQuery = true)
+    List<ShoppingCart> findAllByAccount(String id);
     @Modifying
     @Transactional
     @Query(value = "delete from shoppingcart where id = ?",nativeQuery = true)

@@ -11,13 +11,13 @@ import java.math.BigInteger;
 public class Order {
     @Id
     @Column(name = "id")
-    BigInteger id;
-    @Column(name = "acount")
-    String acount;
+    private BigInteger id;
+    @Column(name = "account")
+    private String account;
     @Column(name = "data")
-    String data;
+    private String data;
     @Column(name = "destination")
-    String destination;
+    private String destination;
 
     public BigInteger getId() {
         return id;
@@ -27,12 +27,12 @@ public class Order {
         this.id = id;
     }
 
-    public String getAcount() {
-        return acount;
+    public String getAccount() {
+        return account;
     }
 
-    public void setAcount(String acount) {
-        this.acount = acount;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public String getData() {

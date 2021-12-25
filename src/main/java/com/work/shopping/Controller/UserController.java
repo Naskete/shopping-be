@@ -26,13 +26,9 @@ public class UserController  {
     /*
     * 将注册用户的信息保存到数据库，返回login界面
     * */
-    @PostMapping("/user/register")
-    public SaResult registerUser(@RequestParam("username") String username,
-                               @RequestParam("password") String password){
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        userService.addUser(user);
+    @PostMapping("/register")
+    public SaResult registerUser(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam String name){
+
         return new SaResult(200,"注册成功",null);
     }
 

@@ -10,13 +10,13 @@ import javax.persistence.Table;
 public class Comment {
     @Id
     @Column(name = "id")
-    String id;
+    private String id;
     @Column(name = "productid")
-    String productid;
+    private String productid;
     @Column(name = "content")
-    String content;
-    @Column(name = "acount")
-    String acount;
+    private String content;
+    @Column(name = "account")
+    private String account;
 
     public String getId() {
         return id;
@@ -42,11 +42,11 @@ public class Comment {
         this.content = content;
     }
 
-    public String getAcount() {
-        return acount;
+    public String getAccount() {
+        return account;
     }
 
-    public void setAcount(String acount) {
-        this.acount = acount;
+    public void setAccount(String account) {
+        this.account = account;
     }
 }

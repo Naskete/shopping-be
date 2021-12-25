@@ -14,8 +14,8 @@ public class ShoppingCart {
     private BigInteger id;
     @Column(name = "data")
     private String data;
-    @Column(name = "acount")
-    private String acount;
+    @Column(name = "account")
+    private String account;
 
     public BigInteger getId() {
         return id;
@@ -33,11 +33,11 @@ public class ShoppingCart {
         this.data = data;
     }
 
-    public String getAcount() {
-        return acount;
+    public String getAccount() {
+        return account;
     }
 
-    public void setAcount(String acount) {
-        this.acount = acount;
+    public void setAccount(String account) {
+        this.account = account;
     }
 }

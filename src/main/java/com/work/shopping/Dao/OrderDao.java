@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface OrderDao extends JpaRepository<Order, BigInteger> {
-    @Query(value = "select * from orders where acount = ?",nativeQuery = true)
-    List<Order> findAllByAcount(String account);
+    @Query(value = "select * from orders where account = ?",nativeQuery = true)
+    List<Order> findAllByAccount(String account);
     @Query(value = "select * from orders where id = ?",nativeQuery = true)
     Order findById(String id);
 }
