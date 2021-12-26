@@ -92,15 +92,6 @@ public class ShoppingController {
         return SaResult.ok("ok");
     }
 
-//    @PostMapping("/getprice")
-//    public SaResult getPrice(@RequestParam("id")String[] id){
-//        // 判断登录状态
-//        if(!StpUtil.isLogin()){
-//            return SaResult.error("请登录");
-//        }
-//        return new SaResult(200,"ok",shoppingService.getPrice(id));
-//    }
-
     @PostMapping("/bill")
     public SaResult bill(@RequestParam("id") String id, @RequestHeader("Authorization") String token){
         // 判断登录状态
@@ -125,14 +116,4 @@ public class ShoppingController {
         return new SaResult(200,"ok",shoppingService.getOrders(account));
     }
 
-//    @PostMapping("/order")
-//    public SaResult getOrderById(@RequestParam("id")String id){
-//        // 判断登录状态
-//        if(!StpUtil.isLogin()){
-//            return SaResult.error("请登录");
-//        }
-//        // 获取当前用户account String productId,
-//        String account = StpUtil.getLoginId().toString();
-//        return new SaResult(200,"ok",shoppingService.getOrderById(id));
-//    }
 }
