@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class ShopService {
@@ -16,9 +17,9 @@ public class ShopService {
 
     public Collection<Shop> findAll() {return shopDao.findAll();}
 
-    public void deleteShop(Shop shop) {shopDao.delete(shop);}
+    public void deleteShop(String shopname) {shopDao.deleteShopByShopName(shopname);}
 
-    public Shop getShopByBussiness(String bussiness){
+    public List<Shop> getShopByBussiness(String bussiness){
         return shopDao.getShopByBussiness(bussiness);
     }
 }

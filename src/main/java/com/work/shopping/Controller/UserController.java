@@ -69,7 +69,7 @@ public class UserController  {
             return SaResult.error("请登录");
         }
         String account = StpUtil.getLoginId().toString();
-        userService.deleteUser(userService.getUserByAccount(account));
+        userService.deleteUser(account);
         return SaResult.ok(" 删除成功");
     }
 
@@ -80,9 +80,7 @@ public class UserController  {
             return SaResult.error("请登录");
         }
         String account = StpUtil.getLoginId().toString();
-        User user = userService.getUserByAccount(account);
-        user.setVip(1);
-        userService.addUser(user);
+        userService.registerVIP(account);
         return  SaResult.ok("恭喜成功注册为会员");
     }
 

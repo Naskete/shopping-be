@@ -95,14 +95,14 @@ public class ShoppingController {
         return new SaResult(200,"ok",shoppingService.getPrice(id));
     }
     @PostMapping("/bill")
-    public SaResult bill(@RequestParam("id")String[] id,@RequestParam("des")String des){
+    public SaResult bill(@RequestParam("id")String[] id,@RequestParam("des")String des,@RequestParam("remain")float remain){
         // 判断登录状态
         if(!StpUtil.isLogin()){
             return SaResult.error("请登录");
         }
         // 获取当前用户account String productId,
         String account = StpUtil.getLoginId().toString();
-        shoppingService.bill(id,account,des);
+        shoppingService.bill(id,account,des,remain);
         return SaResult.ok("ok");
     }
     @GetMapping("/orders")

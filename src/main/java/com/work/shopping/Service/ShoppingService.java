@@ -2,10 +2,7 @@ package com.work.shopping.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.work.shopping.Dao.CommentDao;
-import com.work.shopping.Dao.OrderDao;
-import com.work.shopping.Dao.ProductDao;
-import com.work.shopping.Dao.ShoppingCartDao;
+import com.work.shopping.Dao.*;
 import com.work.shopping.Entity.Comment;
 import com.work.shopping.Entity.Order;
 import com.work.shopping.Entity.Product;
@@ -29,6 +26,8 @@ public class ShoppingService {
     private CommentDao commentDao;
     @Autowired
     private OrderDao orderDao;
+    @Autowired
+    private UserDao userDao;
 
     public List<Product> getProducts(){
         return productDao.findAll();
@@ -79,7 +78,7 @@ public class ShoppingService {
     /**
      * 结算（待定）
      */
-    public void bill(String[] id,String account,String des){
+    public void bill(String[] id,String account,String des,float remain){
         JSONObject j = new JSONObject();
         for (String s:id){
             j.put(s,JSON.parseObject(shoppingCartDao.findAllDataById(s)));
@@ -93,7 +92,7 @@ public class ShoppingService {
         for (String s:id){
             deleteProduct(s);
         }
-
+        userDao.bill(remain,account);
     }
     public JSONObject getOrders(String account){
         JSONObject j = new JSONObject();

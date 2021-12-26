@@ -26,9 +26,17 @@ public class UserService {
         userDao.save(user);
     }
 
-    public void deleteUser(User user) {userDao.delete(user); }
+    public void deleteUser(String account) {userDao.deleteUserByAccount(account); }
 
     public Collection<User> findAll() {
        return userDao.findAll();
+    }
+
+    public void beBussiness(String bussiness){
+        userDao.beBussiness(bussiness);
+    }
+
+    public void registerVIP(String account){
+        userDao.registerVIP(account);
     }
 }

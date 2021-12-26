@@ -17,12 +17,12 @@ public class shopController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/shops")
+    @GetMapping("/shops")
     public SaResult findAll(){
         return new SaResult(200, "successful", shopService.findAll());
     }
 
-    @RequestMapping("/shop")
+    @GetMapping("/shop")
     public SaResult getShopByBussiness(){
         if(!StpUtil.isLogin()){
             return SaResult.error("请登录");
@@ -41,31 +41,16 @@ public class shopController {
         shop.setShopName(shopName);
         shop.setBussiness(bussiness);
         shopService.addShop(shop);
-        User user = userService.getUserByAccount(bussiness);
-        user.setGrade(1);
-        userService.addUser(user);
-        return new SaResult(200,"注册成功",null);
+        userService.beBussiness(bussiness);
+        return SaResult.ok("ok");
     }
 
-    @PostMapping("shop/updateName")
-    public SaResult updateShopName(@RequestParam("shopName") String shopName){
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
-        }
-        String bussiness = StpUtil.getLoginId().toString();
-        Shop shop = shopService.getShopByBussiness(bussiness);
-        shop.setShopName(shopName);
-        shopService.addShop(shop);
-        return SaResult.ok("修改成功");
-    }
-
-    @RequestMapping("shop/logout")
-    public SaResult deleteShop() {
+    @PostMapping("shop/logout")
+    public SaResult deleteShop(@RequestParam("shopname")String shopname) {
         if (!StpUtil.isLogin()) {
             return SaResult.error("请登录");
         }
-        String bussiness = StpUtil.getLoginId().toString();
-        shopService.deleteShop(shopService.getShopByBussiness(bussiness));
+        shopService.deleteShop(shopname);
         return SaResult.ok(" 删除成功");
     }
 }
