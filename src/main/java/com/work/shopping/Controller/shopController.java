@@ -28,23 +28,35 @@ public class shopController {
     @Autowired
     private ShoppingService shoppingService;
 
+
     @GetMapping("/shops")
     public SaResult findAll(){
         return new SaResult(200, "successful", shopService.findAll());
     }
 
+    /**
+     * 获取商家名称
+     * @param token
+     * @return
+     */
     @GetMapping("/shop")
-    public SaResult getShopByBussiness(){
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
+    public SaResult getShopByBussiness(@RequestHeader("Authorization") String token){
+        // 判断登录状态
+        String business = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(business == null){
+            return new SaResult(400, "请登录后查看", null);
         }
-        String business = StpUtil.getLoginId().toString();
         return new SaResult(200,"successful",shopService.getShopByBussiness(business));
     }
 
 
-
-
+    /**
+     * 注册商家
+     * @param shopName 商家名称
+     * @param token token
+     * @return
+     */
     @PostMapping("/Shop/register")
     public SaResult registerShop(@RequestParam("shopName") String shopName, @RequestHeader("Authorization") String token){
         String business = (String) StpUtil.getLoginIdByToken(token);
@@ -60,13 +72,24 @@ public class shopController {
         return SaResult.ok("ok");
     }
 
-    @PostMapping("upload")
-    public SaResult uploadProduct(@RequestParam("name")String name, @RequestParam("shop")String shop, @RequestParam("description")String desc, @RequestParam("image")MultipartFile img, @RequestParam("price")String price){
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
+    /**
+     * 上传
+     * @param name 商品名
+     * @param shop 商家名
+     * @param desc 描述
+     * @param img 图片地址
+     * @param price 价格
+     * @return
+     */
+    @PostMapping("/upload")
+    public SaResult uploadProduct(@RequestParam("name")String name, @RequestParam("shop")String shop, @RequestParam("description")String desc, @RequestParam("image")MultipartFile img, @RequestParam("price")String price, @RequestHeader("Authorization") String token){
+        String account = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(account == null){
+            return new SaResult(400, "请登录后查看", null);
         }
         if (img.isEmpty()||name.isEmpty()||shop.isEmpty()||desc.isEmpty()||price.isEmpty()) {
-            return SaResult.error("请输入完整信息");
+            return  new SaResult(400, "请输入完整信息", null);
         }
         float price2;
         try {
@@ -93,10 +116,6 @@ public class shopController {
         return SaResult.ok("上传成功");
     }
 
-    @PostMapping("test")
-    public SaResult test(@RequestParam("a")String a)throws Exception{
-        return null;
-    }
     @PostMapping("shop/logout")
     public SaResult deleteShop(@RequestParam("shopname")String shopname) {
         if (!StpUtil.isLogin()) {
