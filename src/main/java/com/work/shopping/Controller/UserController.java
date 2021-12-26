@@ -70,7 +70,7 @@ public class UserController  {
 //        return SaResult.ok("修改成功");
 //    }
 //
-<<<<<<< HEAD
+
     @PostMapping("deleteuser")
     public SaResult deleteUser(@RequestParam("account")String account) {
         if (!StpUtil.isLogin()) {
@@ -97,7 +97,7 @@ public class UserController  {
 //        userService.registerVIP(account);
 //        return  SaResult.ok("恭喜成功注册为会员");
 //    }
-=======
+
 
     @GetMapping("user/registerVip")
     public SaResult registerVip(@RequestHeader("Authorization") String token){
@@ -109,6 +109,5 @@ public class UserController  {
         userService.registerVIP(account);
         return  SaResult.ok("恭喜成功注册为会员");
     }
->>>>>>> e024775296d9ef6b801d752d80e8369b650abbc9
 
 }
