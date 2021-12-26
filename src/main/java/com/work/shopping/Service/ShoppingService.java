@@ -32,7 +32,9 @@ public class ShoppingService {
     public List<Product> getProducts(){
         return productDao.findAll();
     }
-
+    public void uploadProduct(Product product){
+        productDao.save(product);
+    }
     /**
      * 通过商品id获取商品
      * @param id 商品id
