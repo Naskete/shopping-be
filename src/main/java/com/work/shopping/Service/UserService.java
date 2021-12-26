@@ -32,8 +32,8 @@ public class UserService {
        return userDao.findAll();
     }
 
-    public void beBussiness(String bussiness){
-        userDao.beBussiness(bussiness);
+    public void beBusiness(String business){
+        userDao.beBusiness(business);
     }
 
     public void registerVIP(String account){

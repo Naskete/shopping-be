@@ -38,25 +38,28 @@ public class shopController {
         if(!StpUtil.isLogin()){
             return SaResult.error("请登录");
         }
-        String bussiness = StpUtil.getLoginId().toString();
-        return new SaResult(200,"successful",shopService.getShopByBussiness(bussiness));
+        String business = StpUtil.getLoginId().toString();
+        return new SaResult(200,"successful",shopService.getShopByBussiness(business));
     }
 
-    @PostMapping("/Shop/register")
+    @PostMapping("/shop/register")
     public SaResult registerShop(@RequestParam("shopName") String shopName){
         if(!StpUtil.isLogin()){
             return SaResult.error("请登录");
         }
-        String bussiness = StpUtil.getLoginId().toString();
+        String business = StpUtil.getLoginId().toString();
         Shop shop =  new Shop();
         shop.setShopName(shopName);
-        shop.setBussiness(bussiness);
+        shop.setBusiness(business);
         shopService.addShop(shop);
-        userService.beBussiness(bussiness);
+        userService.beBusiness(business);
         return SaResult.ok("ok");
     }
     @PostMapping("upload")
     public SaResult uploadProduct(@RequestParam("name")String name, @RequestParam("shop")String shop, @RequestParam("description")String desc, @RequestParam("image")MultipartFile img, @RequestParam("price")String price){
+        if(!StpUtil.isLogin()){
+            return SaResult.error("请登录");
+        }
         if (img.isEmpty()||name.isEmpty()||shop.isEmpty()||desc.isEmpty()||price.isEmpty()) {
             return SaResult.error("请输入完整信息");
         }
@@ -93,6 +96,7 @@ public class shopController {
         if (!StpUtil.isLogin()) {
             return SaResult.error("请登录");
         }
+        shoppingService.offProduct(shopname);
         shopService.deleteShop(shopname);
         return SaResult.ok(" 删除成功");
     }

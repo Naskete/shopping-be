@@ -2,7 +2,10 @@ package com.work.shopping.Controller;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
+import com.work.shopping.Entity.Shop;
 import com.work.shopping.Entity.User;
+import com.work.shopping.Service.ShopService;
+import com.work.shopping.Service.ShoppingService;
 import com.work.shopping.Service.UserService;
 import com.work.shopping.Utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserController  {
     @Autowired
     private UserService userService;
+    @Autowired
+    private ShopService shopService;
+    @Autowired
+    private ShoppingService shoppingService;
 
 
 //    @GetMapping("/users")
@@ -63,15 +70,21 @@ public class UserController  {
 //        return SaResult.ok("修改成功");
 //    }
 //
-//    @RequestMapping("user/logout")
-//    public SaResult deleteUser() {
-//        if (!StpUtil.isLogin()) {
-//            return SaResult.error("请登录");
-//        }
-//        String account = StpUtil.getLoginId().toString();
-//        userService.deleteUser(account);
-//        return SaResult.ok(" 删除成功");
-//    }
+    @PostMapping("deleteuser")
+    public SaResult deleteUser(@RequestParam("account")String account) {
+        if (!StpUtil.isLogin()) {
+            return SaResult.error("请登录");
+        }
+        for (Shop s:shopService.getShopByBussiness(account)){
+            shoppingService.offProduct(s.getShopName());
+            shopService.deleteShop(s.getShopName());
+        }
+        shoppingService.deleteAccountByAccount(account);
+        shoppingService.deleteShoppingCartByAccount(account);
+        shoppingService.deleteOrderByAccount(account);
+        userService.deleteUser(account);
+        return SaResult.ok(" 删除成功");
+    }
 //
 //    //
 //    @GetMapping("user/registerVip")

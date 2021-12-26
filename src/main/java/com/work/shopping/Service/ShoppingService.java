@@ -35,6 +35,9 @@ public class ShoppingService {
     public void uploadProduct(Product product){
         productDao.save(product);
     }
+    public void offProduct(String shop){
+        productDao.offProduct(shop);
+    }
     /**
      * 通过商品id获取商品
      * @param id 商品id
@@ -68,7 +71,9 @@ public class ShoppingService {
         }
         return j;
     }
-
+    public void deleteShoppingCartByAccount(String account){
+        shoppingCartDao.deleteAllByAccount(account);
+    }
 
     /**
      * 从购物车中删除商品
@@ -104,6 +109,9 @@ public class ShoppingService {
         }
         return j;
     }
+    public void deleteOrderByAccount(String account){
+        orderDao.deleteAllByAccount(account);
+    }
     public JSONObject getOrderById(String id){
         JSONObject j = new JSONObject();
         j.put("id",orderDao.findById(id).getId());
@@ -133,5 +141,8 @@ public class ShoppingService {
         comment.setId("0");
         comment.setProductid(productid);
         commentDao.save(comment);
+    }
+    public void deleteAccountByAccount(String account){
+        commentDao.deleteAccountByAccount(account);
     }
 }

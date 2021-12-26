@@ -22,18 +22,18 @@ public class Shop {
         this.shopName = shop_name;
     }
 
-    public String getBussiness() {
+    public String getBusiness() {
         return business;
     }
 
-    public void setBussiness(String bussiness) {
+    public void setBusiness(String bussiness) {
         this.business = bussiness;
     }
 
     @Override
     public String toString() {
         return "shop{" +
-                "bussiness='" + business + '\'' +
+                "business='" + business + '\'' +
                 ", shop_name='" + shopName + '\'' +
                 '}';
     }

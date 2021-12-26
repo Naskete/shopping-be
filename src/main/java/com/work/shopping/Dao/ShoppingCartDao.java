@@ -20,4 +20,8 @@ public interface ShoppingCartDao extends JpaRepository<ShoppingCart, BigInteger>
     void deleteShoppingCartById(String id);
     @Query(value = "select data from shoppingcart where id = ?",nativeQuery = true)
     String findAllDataById(String id);
+    @Modifying
+    @Transactional
+    @Query(value = "delete from shoppingcart where account = ?",nativeQuery = true)
+    void deleteAllByAccount(String account);
 }
