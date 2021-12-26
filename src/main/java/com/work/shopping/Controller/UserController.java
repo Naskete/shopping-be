@@ -63,25 +63,16 @@ public class UserController  {
 //        return SaResult.ok("修改成功");
 //    }
 //
-//    @RequestMapping("user/logout")
-//    public SaResult deleteUser() {
-//        if (!StpUtil.isLogin()) {
-//            return SaResult.error("请登录");
-//        }
-//        String account = StpUtil.getLoginId().toString();
-//        userService.deleteUser(account);
-//        return SaResult.ok(" 删除成功");
-//    }
-//
-//    //
-//    @GetMapping("user/registerVip")
-//    public SaResult registerVip(){
-//        if (!StpUtil.isLogin()) {
-//            return SaResult.error("请登录");
-//        }
-//        String account = StpUtil.getLoginId().toString();
-//        userService.registerVIP(account);
-//        return  SaResult.ok("恭喜成功注册为会员");
-//    }
+
+    @GetMapping("user/registerVip")
+    public SaResult registerVip(@RequestHeader("Authorization") String token){
+        String account = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(account == null){
+            return new SaResult(400, "请登录后查看", null);
+        }
+        userService.registerVIP(account);
+        return  SaResult.ok("恭喜成功注册为会员");
+    }
 
 }
