@@ -42,12 +42,22 @@ public class shopController {
         return new SaResult(200,"successful",shopService.getShopByBussiness(business));
     }
 
+<<<<<<< HEAD
     @PostMapping("/shop/register")
     public SaResult registerShop(@RequestParam("shopName") String shopName){
         if(!StpUtil.isLogin()){
             return SaResult.error("请登录");
         }
         String business = StpUtil.getLoginId().toString();
+=======
+    @PostMapping("/Shop/register")
+    public SaResult registerShop(@RequestParam("shopName") String shopName, @RequestHeader("Authorization") String token){
+        String bussiness = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(bussiness == null){
+            return new SaResult(400, "请登录后查看", null);
+        }
+>>>>>>> e024775296d9ef6b801d752d80e8369b650abbc9
         Shop shop =  new Shop();
         shop.setShopName(shopName);
         shop.setBusiness(business);
@@ -55,6 +65,7 @@ public class shopController {
         userService.beBusiness(business);
         return SaResult.ok("ok");
     }
+
     @PostMapping("upload")
     public SaResult uploadProduct(@RequestParam("name")String name, @RequestParam("shop")String shop, @RequestParam("description")String desc, @RequestParam("image")MultipartFile img, @RequestParam("price")String price){
         if(!StpUtil.isLogin()){
@@ -87,6 +98,7 @@ public class shopController {
         shoppingService.uploadProduct(product);
         return SaResult.ok("上传成功");
     }
+
     @PostMapping("test")
     public SaResult test(@RequestParam("a")String a)throws Exception{
         return null;
