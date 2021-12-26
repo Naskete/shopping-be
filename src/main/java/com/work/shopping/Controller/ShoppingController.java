@@ -30,7 +30,7 @@ public class ShoppingController {
         return new SaResult(200,"successful",shoppingService.getProductById(id));
     }
 
-    /**
+    /** 加入购物车
      * purchase
      * @param product
      * @return ok
@@ -58,6 +58,11 @@ public class ShoppingController {
         return new SaResult(200,"successful",shoppingService.getShoppingCart(account));
     }
 
+    /**
+     * 删除购物车商品
+     * @param id ID
+     * @return
+     */
     @PostMapping("/deletecart")
     public SaResult deleteProduct(@RequestParam("id")String id){
         shoppingService.deleteProduct(id);
@@ -76,53 +81,58 @@ public class ShoppingController {
 
 
     @PostMapping("/addcomment")
-    public SaResult addComment(@RequestParam("content")String content,@RequestParam("productid")String productid){
-        // 判断登录状态
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
+    public SaResult addComment(@RequestParam("content")String content,@RequestParam("productid")String productid, @RequestHeader("Authorization") String token){
+        String account = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(account == null){
+            return new SaResult(400, "请登录后查看", null);
         }
-        // 获取当前用户account String productId,
-        String account = StpUtil.getLoginId().toString();
+        System.out.println();
         shoppingService.addComment(account, content,productid);
         return SaResult.ok("ok");
     }
-    @PostMapping("/getprice")
-    public SaResult getPrice(@RequestParam("id")String[] id){
-        // 判断登录状态
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
-        }
-        return new SaResult(200,"ok",shoppingService.getPrice(id));
-    }
+
+//    @PostMapping("/getprice")
+//    public SaResult getPrice(@RequestParam("id")String[] id){
+//        // 判断登录状态
+//        if(!StpUtil.isLogin()){
+//            return SaResult.error("请登录");
+//        }
+//        return new SaResult(200,"ok",shoppingService.getPrice(id));
+//    }
+
     @PostMapping("/bill")
-    public SaResult bill(@RequestParam("id")String[] id,@RequestParam("des")String des,@RequestParam("remain")float remain){
+    public SaResult bill(@RequestParam("id") String id, @RequestHeader("Authorization") String token){
         // 判断登录状态
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
+        String account = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(account == null){
+            return new SaResult(400, "请登录后查看", null);
         }
-        // 获取当前用户account String productId,
-        String account = StpUtil.getLoginId().toString();
-        shoppingService.bill(id,account,des,remain);
+        String[] ids = id.split(",");
+        shoppingService.bill(ids,account);
         return SaResult.ok("ok");
     }
+
     @GetMapping("/orders")
-    public SaResult getOrders(){
+    public SaResult getOrders(@RequestHeader("Authorization") String token){
         // 判断登录状态
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
-        }
-        // 获取当前用户account String productId,
-        String account = StpUtil.getLoginId().toString();
+        String account = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(account == null){
+            return new SaResult(400, "请登录后查看", null);
+        };
         return new SaResult(200,"ok",shoppingService.getOrders(account));
     }
-    @PostMapping("/order")
-    public SaResult getOrderById(@RequestParam("id")String id){
-        // 判断登录状态
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
-        }
-        // 获取当前用户account String productId,
-        String account = StpUtil.getLoginId().toString();
-        return new SaResult(200,"ok",shoppingService.getOrderById(id));
-    }
+
+//    @PostMapping("/order")
+//    public SaResult getOrderById(@RequestParam("id")String id){
+//        // 判断登录状态
+//        if(!StpUtil.isLogin()){
+//            return SaResult.error("请登录");
+//        }
+//        // 获取当前用户account String productId,
+//        String account = StpUtil.getLoginId().toString();
+//        return new SaResult(200,"ok",shoppingService.getOrderById(id));
+//    }
 }
