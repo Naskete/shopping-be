@@ -68,9 +68,6 @@ public class UserController  {
             return new SaResult(400, "请登录后查看", null);
         }
         User usr = userService.getUserByAccount(id);
-        if(usr.getGrade()!=3) {
-            return new SaResult(403, "没有权限", null);
-        }
         return new SaResult(200,"successful",userService.getUserByAccount(id));
     }
 
