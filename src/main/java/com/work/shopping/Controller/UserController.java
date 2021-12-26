@@ -23,10 +23,19 @@ public class UserController  {
     private ShoppingService shoppingService;
 
 
-//    @GetMapping("/users")
-//    public SaResult findAll() {
-//        return new SaResult(200, "successful", userService.findAll());
-//    }
+    @GetMapping("/users")
+    public SaResult findAll(@RequestHeader("Authorization") String token) {
+        String id = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(id == null){
+            return new SaResult(400, "请登录后查看", null);
+        }
+        User usr = userService.getUserByAccount(id);
+        if(usr.getGrade()!=3) {
+            return new SaResult(403, "没有权限", null);
+        }
+        return new SaResult(200, "successful", userService.findAll());
+    }
 
     /**
      * @param account 账号
@@ -58,23 +67,19 @@ public class UserController  {
         if(id == null){
             return new SaResult(400, "请登录后查看", null);
         }
+        User usr = userService.getUserByAccount(id);
+        if(usr.getGrade()!=3) {
+            return new SaResult(403, "没有权限", null);
+        }
         return new SaResult(200,"successful",userService.getUserByAccount(id));
     }
-//
-//    @PostMapping("user/update")
-//    public SaResult updateUser(User user){
-//        if(!StpUtil.isLogin()){
-//            return SaResult.error("请登录");
-//        }
-//        userService.addUser(user);
-//        return SaResult.ok("修改成功");
-//    }
-//
 
     @PostMapping("deleteuser")
-    public SaResult deleteUser(@RequestParam("account")String account) {
-        if (!StpUtil.isLogin()) {
-            return SaResult.error("请登录");
+    public SaResult deleteUser(@RequestParam("account")String account, @RequestHeader("Authorization") String token) {
+        String id = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(id == null){
+            return new SaResult(400, "请登录后查看", null);
         }
         for (Shop s:shopService.getShopByBussiness(account)){
             shoppingService.offProduct(s.getShopName());
@@ -86,18 +91,6 @@ public class UserController  {
         userService.deleteUser(account);
         return SaResult.ok(" 删除成功");
     }
-//
-//    //
-//    @GetMapping("user/registerVip")
-//    public SaResult registerVip(){
-//        if (!StpUtil.isLogin()) {
-//            return SaResult.error("请登录");
-//        }
-//        String account = StpUtil.getLoginId().toString();
-//        userService.registerVIP(account);
-//        return  SaResult.ok("恭喜成功注册为会员");
-//    }
-
 
     @GetMapping("user/registerVip")
     public SaResult registerVip(@RequestHeader("Authorization") String token){
