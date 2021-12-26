@@ -67,6 +67,7 @@ public class ShoppingService {
         return j;
     }
 
+
     /**
      * 从购物车中删除商品
      * @param id 商品id
@@ -78,7 +79,7 @@ public class ShoppingService {
     /**
      * 结算（待定）
      */
-    public void bill(String[] id,String account,String des,float remain){
+    public void bill(String[] id,String account){
         JSONObject j = new JSONObject();
         for (String s:id){
             j.put(s,JSON.parseObject(shoppingCartDao.findAllDataById(s)));
@@ -87,12 +88,12 @@ public class ShoppingService {
         order.setAccount(account);
         order.setData(JSON.toJSONString(j));
         order.setId(new BigInteger("0"));
-        order.setDestination(des);
+        order.setDestination("南昌大学");
         orderDao.save(order);
         for (String s:id){
             deleteProduct(s);
         }
-        userDao.bill(remain,account);
+        userDao.bill(0,account);
     }
     public JSONObject getOrders(String account){
         JSONObject j = new JSONObject();
