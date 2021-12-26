@@ -43,11 +43,12 @@ public class shopController {
     }
 
     @PostMapping("/Shop/register")
-    public SaResult registerShop(@RequestParam("shopName") String shopName){
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
+    public SaResult registerShop(@RequestParam("shopName") String shopName, @RequestHeader("Authorization") String token){
+        String bussiness = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(bussiness == null){
+            return new SaResult(400, "请登录后查看", null);
         }
-        String bussiness = StpUtil.getLoginId().toString();
         Shop shop =  new Shop();
         shop.setShopName(shopName);
         shop.setBussiness(bussiness);
@@ -55,6 +56,7 @@ public class shopController {
         userService.beBussiness(bussiness);
         return SaResult.ok("ok");
     }
+
     @PostMapping("upload")
     public SaResult uploadProduct(@RequestParam("name")String name, @RequestParam("shop")String shop, @RequestParam("description")String desc, @RequestParam("image")MultipartFile img, @RequestParam("price")String price){
         if (img.isEmpty()||name.isEmpty()||shop.isEmpty()||desc.isEmpty()||price.isEmpty()) {
@@ -84,6 +86,7 @@ public class shopController {
         shoppingService.uploadProduct(product);
         return SaResult.ok("上传成功");
     }
+
     @PostMapping("test")
     public SaResult test(@RequestParam("a")String a)throws Exception{
         return null;
