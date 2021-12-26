@@ -16,10 +16,10 @@ public class UserController  {
     private UserService userService;
 
 
-    @GetMapping("/users")
-    public SaResult findAll() {
-        return new SaResult(200, "successful", userService.findAll());
-    }
+//    @GetMapping("/users")
+//    public SaResult findAll() {
+//        return new SaResult(200, "successful", userService.findAll());
+//    }
 
     /**
      * @param account 账号
@@ -53,35 +53,35 @@ public class UserController  {
         }
         return new SaResult(200,"successful",userService.getUserByAccount(id));
     }
-
-    @PostMapping("user/update")
-    public SaResult updateUser(User user){
-        if(!StpUtil.isLogin()){
-            return SaResult.error("请登录");
-        }
-        userService.addUser(user);
-        return SaResult.ok("修改成功");
-    }
-
-    @RequestMapping("user/logout")
-    public SaResult deleteUser() {
-        if (!StpUtil.isLogin()) {
-            return SaResult.error("请登录");
-        }
-        String account = StpUtil.getLoginId().toString();
-        userService.deleteUser(account);
-        return SaResult.ok(" 删除成功");
-    }
-
-    //
-    @GetMapping("user/registerVip")
-    public SaResult registerVip(){
-        if (!StpUtil.isLogin()) {
-            return SaResult.error("请登录");
-        }
-        String account = StpUtil.getLoginId().toString();
-        userService.registerVIP(account);
-        return  SaResult.ok("恭喜成功注册为会员");
-    }
+//
+//    @PostMapping("user/update")
+//    public SaResult updateUser(User user){
+//        if(!StpUtil.isLogin()){
+//            return SaResult.error("请登录");
+//        }
+//        userService.addUser(user);
+//        return SaResult.ok("修改成功");
+//    }
+//
+//    @RequestMapping("user/logout")
+//    public SaResult deleteUser() {
+//        if (!StpUtil.isLogin()) {
+//            return SaResult.error("请登录");
+//        }
+//        String account = StpUtil.getLoginId().toString();
+//        userService.deleteUser(account);
+//        return SaResult.ok(" 删除成功");
+//    }
+//
+//    //
+//    @GetMapping("user/registerVip")
+//    public SaResult registerVip(){
+//        if (!StpUtil.isLogin()) {
+//            return SaResult.error("请登录");
+//        }
+//        String account = StpUtil.getLoginId().toString();
+//        userService.registerVIP(account);
+//        return  SaResult.ok("恭喜成功注册为会员");
+//    }
 
 }
