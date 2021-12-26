@@ -74,7 +74,7 @@ public class UserController  {
         return new SaResult(200,"successful",userService.getUserByAccount(id));
     }
 
-    @PostMapping("deleteuser")
+    @PostMapping("/deleteuser")
     public SaResult deleteUser(@RequestParam("account")String account, @RequestHeader("Authorization") String token) {
         String id = (String) StpUtil.getLoginIdByToken(token);
         // 未登录
@@ -92,7 +92,7 @@ public class UserController  {
         return SaResult.ok(" 删除成功");
     }
 
-    @GetMapping("user/registerVip")
+    @GetMapping("/user/registerVip")
     public SaResult registerVip(@RequestHeader("Authorization") String token){
         String account = (String) StpUtil.getLoginIdByToken(token);
         // 未登录

@@ -30,7 +30,16 @@ public class shopController {
 
 
     @GetMapping("/shops")
-    public SaResult findAll(){
+    public SaResult findAll(@RequestHeader("Authorization") String token){
+        String id = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(id == null){
+            return new SaResult(400, "请登录后查看", null);
+        }
+        User usr = userService.getUserByAccount(id);
+        if(usr.getGrade()!=3) {
+            return new SaResult(403, "没有权限", null);
+        }
         return new SaResult(200, "successful", shopService.findAll());
     }
 
@@ -116,10 +125,12 @@ public class shopController {
         return SaResult.ok("上传成功");
     }
 
-    @PostMapping("shop/logout")
-    public SaResult deleteShop(@RequestParam("shopname")String shopname) {
-        if (!StpUtil.isLogin()) {
-            return SaResult.error("请登录");
+    @PostMapping("/shop/delete")
+    public SaResult deleteShop(@RequestParam("shopname")String shopname, @RequestHeader("Authorization") String token) {
+        String business = (String) StpUtil.getLoginIdByToken(token);
+        // 未登录
+        if(business == null){
+            return new SaResult(400, "请登录后查看", null);
         }
         shoppingService.offProduct(shopname);
         shopService.deleteShop(shopname);
