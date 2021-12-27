@@ -15,6 +15,6 @@ public interface ShopDao extends JpaRepository<Shop, String> {
     List<Shop> getShopByBussiness(String business);
     @Modifying
     @Transactional
-    @Query(value = "delete from shop where shop_name = ?",nativeQuery = true)
-    void deleteShopByShopName(String shopname);
+    @Query(value = "delete from shop where shop_name = ?1 and business = ?2",nativeQuery = true)
+    void deleteShopByShopName(String shopname, String account);
 }

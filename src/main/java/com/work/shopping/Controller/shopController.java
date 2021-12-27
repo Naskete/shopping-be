@@ -126,14 +126,14 @@ public class shopController {
     }
 
     @PostMapping("/shop/delete")
-    public SaResult deleteShop(@RequestParam("shopname")String shopname, @RequestHeader("Authorization") String token) {
+    public SaResult deleteShop(@RequestParam("shopname")String shopname,@RequestParam("account") String account, @RequestHeader("Authorization") String token) {
         String business = (String) StpUtil.getLoginIdByToken(token);
         // 未登录
         if(business == null){
             return new SaResult(400, "请登录后查看", null);
         }
         shoppingService.offProduct(shopname);
-        shopService.deleteShop(shopname);
+        shopService.deleteShop(shopname, account);
         return SaResult.ok(" 删除成功");
     }
 }

@@ -78,9 +78,13 @@ public class UserController  {
         if(id == null){
             return new SaResult(400, "请登录后查看", null);
         }
+        User user = userService.getUserByAccount(id);
+        if(user.getGrade() != 3){
+            return new SaResult(403, "没有权限", null);
+        }
         for (Shop s:shopService.getShopByBussiness(account)){
             shoppingService.offProduct(s.getShopName());
-            shopService.deleteShop(s.getShopName());
+            shopService.deleteShop(s.getShopName(), id);
         }
         shoppingService.deleteAccountByAccount(account);
         shoppingService.deleteShoppingCartByAccount(account);

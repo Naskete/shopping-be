@@ -17,7 +17,7 @@ public class ShopService {
 
     public Collection<Shop> findAll() {return shopDao.findAll();}
 
-    public void deleteShop(String shopname) {shopDao.deleteShopByShopName(shopname);}
+    public void deleteShop(String shopname, String account) {shopDao.deleteShopByShopName(shopname, account);}
 
     public List<Shop> getShopByBussiness(String bussiness){
         return shopDao.getShopByBussiness(bussiness);
